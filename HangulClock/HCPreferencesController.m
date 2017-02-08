@@ -146,12 +146,12 @@
 {
     NSFileManager* fileManager = [NSFileManager defaultManager];
     BOOL isDir;
+    NSError* error;
     
     if ([fileManager fileExistsAtPath:[defaultWidgetDir path] isDirectory:&isDir] && isDir) {
-        return;
+        [fileManager removeItemAtPath:defaultWidgetDir error:&error];
     }
     
-    NSError* error;
     [fileManager createDirectoryAtURL:defaultWidgetDir
           withIntermediateDirectories:YES
                            attributes:nil

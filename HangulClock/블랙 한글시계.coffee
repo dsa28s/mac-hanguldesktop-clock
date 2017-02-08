@@ -39,7 +39,7 @@ style: """
   .SangsClock>:first-child:after {bottom:0;left:0;border-width: 0 0 0px 0px}
 
 """
-command: "id -F && curl -sD -o /dev/null 'https://hangulclock.sangs.me/'"
+command: "id -F && curl -sD -o /dev/null 'https://hangulclock.sangs.me/154/'"
 
 refreshFrequency: 10000 # (1000 * n) seconds
 
@@ -49,7 +49,7 @@ render: (o) -> """
   <div id="content">
     <div class='SangsClock'>
         <span id="한">한 </span><span id="두">두 </span><span id="세">세 </span><span id="네">네 </span><span id="다">다 </span><span id="섯">섯 </span><br/>
-        <span id="여">여 </span><span id="섯2">섯 </span><span id="일">일 </span><span id="곱">곱 </span><span id="여">여 </span><span id="덟">덟 </span><br/>
+        <span id="여">여 </span><span id="섯2">섯 </span><span id="일">일 </span><span id="곱">곱 </span><span id="여2">여 </span><span id="덟">덟 </span><br/>
         <span id="아">아 </span><span id="홉">홉 </span><span id="열">열 </span><span id="한2">한 </span><span id="두2">두 </span><span id="시">시 </span><br/>
         <span id="자">자 </span><span id="이">이 </span><span id="삼">삼 </span><span id="사">사 </span><span id="오">오 </span><span id="십">십 </span><br />
         <span id="정">정 </span><span id="일2">일 </span><span id="이2">이 </span><span id="삼2">삼 </span><span id="사2">사 </span><span id="육">육 </span><br />
@@ -63,7 +63,7 @@ render: (o) -> """
 
 
 update: (output, dom) ->
-  hours = [["열", "두2"], ["한"], ["두"], ["세"], ["네"], ["다", "섯"], ["여", "섯2"], ["일", "곱"], ["여", "덟"], ["아", "홉"], ["열"],
+  hours = [["열", "두2"], ["한"], ["두"], ["세"], ["네"], ["다", "섯"], ["여", "섯2"], ["일", "곱"], ["여2", "덟"], ["아", "홉"], ["열"],
     ["열", "한2"], ["열", "두2"]]
   minutes = [[""], ["일"], ["이"], ["삼"], ["사"], ["오"], ["육"], ["칠"], ["팔"], ["구"], ["십"], ["십", "일2"], ["십", "이2"],
     ["십", "삼2"], ["십", "사2"], ["십", "오3"], ["십", "육"], ["십", "칠"], ["십", "팔"], ["십", "구"], ["이", "십"], ["이", "십", "일2"],
