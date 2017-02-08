@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="HCPreferencesController">
+            <connections>
+                <outlet property="toolbar" destination="92" id="102"/>
+                <outlet property="window" destination="1" id="3"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="1">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="472" y="636" width="543" height="299"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
+            <value key="minSize" type="size" width="543" height="284"/>
+            <value key="maxSize" type="size" width="543" height="284"/>
+            <view key="contentView" autoresizesSubviews="NO" id="2">
+                <rect key="frame" x="0.0" y="0.0" width="543" height="299"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="178">
+                        <rect key="frame" x="220" y="248" width="130" height="18"/>
+                        <buttonCell key="cell" type="check" title="자동으로 시작할게요!" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="179">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="startAtLogin" id="228"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="255">
+                        <rect key="frame" x="149" y="250" width="67" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Mac 부팅시" id="256">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="jHv-DY-0s5">
+                        <rect key="frame" x="220" y="223" width="202" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="198" id="VmL-oD-sw0"/>
+                        </constraints>
+                        <buttonCell key="cell" type="check" title="바탕화면 요소들에게 피해주지 않기" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="7vp-gG-U0H">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="compatibilityMode" id="KUH-10-mLv"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="268" translatesAutoresizingMaskIntoConstraints="NO" id="VVJ-Cl-FSt">
+                        <rect key="frame" x="237" y="175" width="288" height="42"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="284" id="VAa-xG-1WZ"/>
+                        </constraints>
+                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="해당 옵션에 체크하면, 시계가 바탕화면에 대해 아무런 영향을 미치지 않습니다. (마치 바탕화면처럼 아이콘이 시계 위로도 올라오고 등등...)" id="GmJ-aJ-oHW">
+                            <font key="font" size="11" name=".AppleSDGothicNeoI-Regular"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="R1C-8t-EyM">
+                        <rect key="frame" x="178" y="225" width="38" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="호환성" id="8lm-M5-ekh">
+                            <font key="font" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="255" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="151" id="ENJ-xh-aF8"/>
+                    <constraint firstItem="178" firstAttribute="leading" secondItem="jHv-DY-0s5" secondAttribute="leading" id="HJb-r2-mL7"/>
+                    <constraint firstItem="VVJ-Cl-FSt" firstAttribute="top" secondItem="jHv-DY-0s5" secondAttribute="bottom" constant="8" symbolic="YES" id="KsU-aW-wup"/>
+                    <constraint firstItem="255" firstAttribute="top" secondItem="2" secondAttribute="top" constant="32" id="Ltt-sF-a9P"/>
+                    <constraint firstItem="R1C-8t-EyM" firstAttribute="top" secondItem="255" secondAttribute="bottom" constant="8" symbolic="YES" id="S3F-qi-LS6"/>
+                    <constraint firstAttribute="trailing" secondItem="VVJ-Cl-FSt" secondAttribute="trailing" constant="20" symbolic="YES" id="YS0-pB-Pl7"/>
+                    <constraint firstItem="R1C-8t-EyM" firstAttribute="bottom" secondItem="jHv-DY-0s5" secondAttribute="bottom" id="mOQ-5j-5bX"/>
+                    <constraint firstItem="178" firstAttribute="leading" secondItem="255" secondAttribute="trailing" constant="8" symbolic="YES" id="mcw-7s-Y3Z"/>
+                    <constraint firstItem="255" firstAttribute="bottom" secondItem="178" secondAttribute="bottom" id="mdK-vn-NPe"/>
+                    <constraint firstItem="jHv-DY-0s5" firstAttribute="leading" secondItem="R1C-8t-EyM" secondAttribute="trailing" constant="8" symbolic="YES" id="vTG-Ww-hOc"/>
+                </constraints>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="0599CB78-2254-4973-943F-C06905598AF1" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="small" id="92">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="9C17D6B2-141D-4A6E-AA37-1A303F111E01" explicitItemIdentifier="general" label="기본" paletteLabel="기본" tag="-1" image="NSPreferencesGeneral" autovalidates="NO" selectable="YES" id="98"/>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="98"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <connections>
+                <outlet property="delegate" destination="-2" id="4"/>
+            </connections>
+            <point key="canvasLocation" x="303.5" y="343.5"/>
+        </window>
+        <userDefaultsController representsSharedInstance="YES" id="99"/>
+    </objects>
+    <resources>
+        <image name="NSPreferencesGeneral" width="32" height="32"/>
+    </resources>
+</document>
