@@ -7,7 +7,7 @@
 즉, 바탕화면에 있는 아이콘과 배경화면에는 아무런 주지 않는다는거죠.
 
 ## 한글시계 사용하기
-다운로드 : https://s3.ap-northeast-2.amazonaws.com/sangscdn/hangulclock/mac/한글시계 - 오늘도 수고한 당신에게(157).dmg
+다운로드 : https://s3.ap-northeast-2.amazonaws.com/sangscdn/hangulclock/mac/한글시계+-+오늘도+수고한+당신에게(157).dmg
 
 1. 다운로드 완료 후 dmg 파일을 마운트해주세요!
 2. 응용프로그램 폴더로 드래그!
