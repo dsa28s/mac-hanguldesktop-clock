@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>SUFeedURL</key>
+	<string>https://hangulclock.today/update/appcast.xml</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>ko_KR</string>
 	<key>CFBundleExecutable</key>
@@ -15,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4.1</string>
+	<string>2.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>155</string>
+	<string>272</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
@@ -32,7 +34,7 @@
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2017 MR.LEE(leeshoon1344). Released under the GNU General Public License v3.</string>
+	<string>Copyright © 2017 Lee Dora(leeshoon1344). Released under the GNU General Public License v3.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
@@ -41,5 +43,7 @@
 	<true/>
 	<key>OSAScriptingDefinition</key>
 	<string>Hangul Clock for Mac.sdef</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>

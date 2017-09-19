@@ -6,11 +6,53 @@
  * Original Copyright (c) 2013 Felix Hageloh.
  */
 
+#import <AppKit/AppKit.h>
+#import "AppDelegate.h"
 #import "HCWidgetsController.h"
 #import "HCWidgetsStore.h"
 #import "HCScreensController.h"
 #import "HCDispatcher.h"
 #import "HCWidgetForScripting.h"
+
+@interface TerminationListener: NSObject
+{
+    const char* executablePath;
+    pid_t parentProcessId;
+}
+
+- (void) relaunch;
+@end
+
+@implementation TerminationListener
+- (id) initWithExecutablePath:(const char *)execPath parentProcessId:(pid_t)ppid
+{
+    self = [super init];
+    if (self != nil) {
+        executablePath = execPath;
+        parentProcessId = ppid;
+        
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(applicationDidTerminate:) name:NSWorkspaceDidTerminateApplicationNotification object:nil];
+        if (getppid() == 1) {
+            [self relaunch];
+        }
+    }
+    return self;
+}
+
+- (void) applicationDidTerminate:(NSNotification *)notification
+{
+    if (parentProcessId == [[[notification userInfo] valueForKey:@"NSApplicationProcessIdentifier"] intValue]) {
+        [self relaunch];
+    }
+}
+
+- (void) relaunch
+{
+    [[NSWorkspace sharedWorkspace] launchApplication:[NSString stringWithUTF8String:executablePath]];
+    exit(0);
+}
+
+@end
 
 @implementation HCWidgetsController {
     HCWidgetsStore* widgets;
@@ -117,6 +159,9 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
         NSMenu* widgetMenu = [[NSMenu alloc] init];
         [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:0];
         [self addHideOptionToMenu:widgetMenu forWidget:widgetId];
+        [self addClockDirectionDetailOptionsToMenu:widgetMenu forWidget:widgetId];
+        [self addClockDirectionOptionToMenu:widgetMenu forWidget:widgetId];
+        [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:5];
         
         [self
          addScreens: [screensController screens]
@@ -199,13 +244,50 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
     [menu insertItem:item atIndex:0];
 }
 
+- (void)addClockDirectionOptionToMenu:(NSMenu*)menu forWidget:(NSString*)widgetId
+{
+    NSMenuItem* item = [[NSMenuItem alloc] init];
+    NSDictionary* settings = [widgets getSettings:widgetId];
+    
+    [item setTitle:@"문구 방향"];
+    [item setState:false];
+    [item setEnabled:NO];
+    [menu insertItem:item atIndex:0];
+}
+
+- (void)addClockDirectionDetailOptionsToMenu:(NSMenu*)menu forWidget:(NSString*)widgetId
+{
+    NSArray* directionStringArray = [NSArray arrayWithObjects:@"위", @"아래", @"왼쪽", @"오른쪽", nil];
+    NSArray* directionPrefKeyArray = [NSArray arrayWithObjects:@"top", @"bottom", @"left", @"right", nil];
+    SEL selectors[] = { @selector(toggleMessageDirection_Right:), @selector(toggleMessageDirection_Left:), @selector(toggleMessageDirection_Bottom:), @selector(toggleMessageDirection_Top:) };
+    directionStringArray = [[directionStringArray reverseObjectEnumerator]allObjects];
+    directionPrefKeyArray = [[directionPrefKeyArray reverseObjectEnumerator]allObjects];
+    
+    for(int i = 0; i < 4; i++) {
+        NSMenuItem* item = [[NSMenuItem alloc]
+                            initWithTitle: directionStringArray[i]
+                            action: selectors[i]
+                            keyEquivalent: @""
+                            ];
+        
+        NSDictionary* settings = [widgets getSettings:widgetId];
+        [item setTarget:self];
+        [item setRepresentedObject:widgetId];
+        
+        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+        
+        [item setState:[[userDefaults objectForKey:@"messageDirection"]  isEqual: directionPrefKeyArray[i]]];
+        [menu insertItem:item atIndex:0];
+    }
+}
+
 - (void)addSelectedScreensOptionToMenu:(NSMenu*)menu
                              forWidget:(NSString*)widgetId
 {
     NSMenuItem* item = [[NSMenuItem alloc] init];
     NSDictionary* settings = [widgets getSettings:widgetId];
     
-    [item  setTitle:@"선택된 디스플에이에서만 보이기:"];
+    [item  setTitle:@"선택된 디스플레이에서만 보이기:"];
     [item setState:[settings[@"showOnSelectedScreens"] boolValue]];
     [item setEnabled:NO];
     [menu insertItem:item atIndex:0];
@@ -231,7 +313,7 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
     int i = 0;
     for(NSNumber* screenId in screensController.sortedScreens) {
         name = screensController.screens[screenId];
-        title = [NSString stringWithFormat:@"Show on %@", name];
+        title = [NSString stringWithFormat:@"%@ 에서만 보이기", name];
         newItem = [[NSMenuItem alloc]
             initWithTitle: title
             action: @selector(toggleScreen:)
@@ -326,6 +408,68 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
         dispatch: isHidden ? @"WIDGET_SET_TO_SHOW" : @"WIDGET_SET_TO_HIDE"
         withPayload: widgetId
     ];
+}
+
+- (void)restartHangulClockDialog
+{
+    NSAlert *alert = [NSAlert new];
+    alert.messageText = @"한글시계 재시작";
+    alert.informativeText = @"설정값을 반영하기 위해 한글시계가 재시작됩니다.";
+    [alert addButtonWithTitle:@"확인"];
+    [alert beginSheetModalForWindow:nil modalDelegate:self didEndSelector:@selector(someMethodDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)toggleMessageDirection_Top:(id)sender
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@"top" forKey:@"messageDirection"];
+    [userDefaults synchronize];
+
+    [self restartHangulClockDialog];
+}
+
+- (void)toggleMessageDirection_Bottom:(id)sender
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@"bottom" forKey:@"messageDirection"];
+    [userDefaults synchronize];
+    
+    [self restartHangulClockDialog];
+}
+
+- (void)toggleMessageDirection_Left:(id)sender
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@"left" forKey:@"messageDirection"];
+    [userDefaults synchronize];
+    
+    [self restartHangulClockDialog];
+}
+
+- (void)toggleMessageDirection_Right:(id)sender
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@"right" forKey:@"messageDirection"];
+    [userDefaults synchronize];
+
+    [self restartHangulClockDialog];
+}
+
+- (void) someMethodDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    /*NSArray *applications = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"me.sangs.hangul.coding.mac"];
+    if (applications.count) {
+        [(NSRunningApplication *)applications[0] terminate];
+    }*/
+    
+    NSString* path = [[NSBundle mainBundle] resourcePath].stringByDeletingLastPathComponent.stringByDeletingLastPathComponent;
+    NSTask* task = [NSTask alloc];
+    
+    task.launchPath = @"/usr/bin/open";
+    task.arguments = [NSArray arrayWithObjects:path, nil];
+    [task launch];
+    
+    exit(0);
 }
 
 - (void)toggleScreen:(id)sender

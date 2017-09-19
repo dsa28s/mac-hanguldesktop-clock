@@ -1,0 +1,4 @@
+#!/bin/bash
+# Originally created on 5 July 2015
+# Modified on 2 January 2016 because the prefix "2015" should be the current year.
+sed ':a;N;$!ba;s/\n[^2]/ /g' /tmp/herokulog | grep '^'"$(date +%Y)" | grep -vP '/http://cors-anywhere.herokuapp.com|clbb|stream|lyrics|plusone|btc'  | less -S

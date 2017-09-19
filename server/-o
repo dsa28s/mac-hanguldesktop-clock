@@ -1,0 +1,11 @@
+HTTP/2 200 
+date: Mon, 18 Sep 2017 13:54:05 GMT
+content-type: text/html
+set-cookie: __cfduid=dc4fa968f01ed3e0bad0c8bebbe82a7a91505742845; expires=Tue, 18-Sep-18 13:54:05 GMT; path=/; domain=.sangs.me; HttpOnly
+last-modified: Sat, 25 Mar 2017 09:53:58 GMT
+strict-transport-security: max-age=63072000; includeSubdomains
+x-frame-options: DENY
+x-content-type-options: nosniff
+server: cloudflare-nginx
+cf-ray: 3a04cb904f08788c-LAX
+

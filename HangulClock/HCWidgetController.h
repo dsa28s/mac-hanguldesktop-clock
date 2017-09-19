@@ -20,6 +20,7 @@
            screens:(HCScreensController*)screens;
 - (void)render;
 - (NSArray*)widgetsForScripting;
+- (void)refreshHangulClock:(float)seconds;
 
 @end
 

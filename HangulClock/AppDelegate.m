@@ -19,6 +19,8 @@
 #import "WKPage.h"
 #import "WKWebViewInternal.h"
 
+#import <AppKit/AppKit.h>
+
 @import WebKit;
 
 int const PORT = 2320;
@@ -36,6 +38,8 @@ int const PORT = 2320;
     NSMutableDictionary* windows;
     BOOL needsRefresh;
 }
+
+
 
 @synthesize statusBarMenu;
 
@@ -219,10 +223,29 @@ int const PORT = 2320;
 
 - (NSURL*)serverUrl:(NSString*)protocol
 {
+    int messageDirection = 0;
+    
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"top"])
+    {
+        messageDirection = 1;
+    }
+    else if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"bottom"]) {
+        messageDirection = 2;
+    }
+    else if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"left"]) {
+        messageDirection = 4;
+    }
+    else if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"right"]) {
+        messageDirection = 3;
+    }
+    
+    
     // trailing slash required for load policy in HCWindow
     return [NSURL
         URLWithString:[NSString
-            stringWithFormat:@"%@://127.0.0.1:%d/", protocol, PORT+portOffset
+            stringWithFormat:@"%@://127.0.0.1:%d/?messagePosition=%d", protocol, PORT+portOffset, messageDirection
         ]
     ];
 }

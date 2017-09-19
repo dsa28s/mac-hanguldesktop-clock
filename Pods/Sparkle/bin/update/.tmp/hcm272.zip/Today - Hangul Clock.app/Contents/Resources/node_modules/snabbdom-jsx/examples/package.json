@@ -1,0 +1,23 @@
+{
+  "name": "examples",
+  "version": "0.0.0",
+  "description": "snabbdom examples",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-hello": "browserify hello/main.js -t babelify --outfile hello/build.js",
+    "build-counter": "browserify counter/js/main.js -t babelify --outfile counter/build.js",
+    "build-svg": "browserify svg/main.js -t babelify --outfile svg/build.js",
+    "build-todos": "browserify todomvc/js/main.js -t babelify --outfile todomvc/build.js",
+    "build": "npm run build-hello && npm run build-counter && npm run build-svg && npm run build-todos"
+  },
+  "author": "Yassine Elouafi <yelouafi@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babelify": "^7.2.0"
+  },
+  "dependencies": {
+    "snabbdom": "^0.2.7",
+    "todomvc-app-css": "^2.0.3",
+    "todomvc-common": "^1.0.2"
+  }
+}
