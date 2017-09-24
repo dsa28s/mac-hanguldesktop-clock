@@ -224,6 +224,7 @@ int const PORT = 2320;
 - (NSURL*)serverUrl:(NSString*)protocol
 {
     int messageDirection = 0;
+    int messageDisabled = 0;
     
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -231,21 +232,37 @@ int const PORT = 2320;
     {
         messageDirection = 1;
     }
-    else if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"bottom"]) {
+    else if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"bottom"])
+    {
         messageDirection = 2;
     }
-    else if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"left"]) {
+    else if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"left"])
+    {
         messageDirection = 4;
     }
-    else if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"right"]) {
+    else if([[userDefaults objectForKey:@"messageDirection"] isEqual:@"right"])
+    {
         messageDirection = 3;
     }
+    else
+    {
+        messageDirection = 1;
+    }
     
+    if([[userDefaults objectForKey:@"messageDisabled"] isEqual:@"disabled"])
+    {
+        messageDisabled = 1;
+        messageDirection = 1;
+    }
+    else
+    {
+        messageDisabled = 0;
+    }
     
     // trailing slash required for load policy in HCWindow
     return [NSURL
         URLWithString:[NSString
-            stringWithFormat:@"%@://127.0.0.1:%d/?messagePosition=%d", protocol, PORT+portOffset, messageDirection
+            stringWithFormat:@"%@://127.0.0.1:%d/?messagePosition=%d&messageDisabled=%d", protocol, PORT+portOffset, messageDirection, messageDisabled
         ]
     ];
 }

@@ -140,6 +140,11 @@ update: (output, dom) ->
     $(dom).find("#message_bottom").css("display", "block")
     $(dom).find("#message_bottom").addClass("message-left")
     $(dom).find("#content").addClass("content-right")
+  else
+
+  if(getParameters().messageDisabled == "1")
+    $(dom).find("#message_top").css("display", "none")
+    $(dom).find("#message_bottom").css("display", "none")
 
   if (hour is 0 or hour is 12) and minute is 0
     lightOn h_typo for h_typo in noons[Math.floor(hour / 12)]

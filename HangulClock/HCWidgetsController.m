@@ -159,8 +159,10 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
         NSMenu* widgetMenu = [[NSMenu alloc] init];
         [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:0];
         [self addHideOptionToMenu:widgetMenu forWidget:widgetId];
-        [self addClockDirectionDetailOptionsToMenu:widgetMenu forWidget:widgetId];
+        [self addMessageDisableOptionsToMenu:widgetMenu forWidget:widgetId];
+        [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:1];
         [self addClockDirectionOptionToMenu:widgetMenu forWidget:widgetId];
+        [self addClockDirectionDetailOptionsToMenu:widgetMenu forWidget:widgetId];
         [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:5];
         
         [self
@@ -279,6 +281,24 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
         [item setState:[[userDefaults objectForKey:@"messageDirection"]  isEqual: directionPrefKeyArray[i]]];
         [menu insertItem:item atIndex:0];
     }
+}
+
+- (void)addMessageDisableOptionsToMenu:(NSMenu*)menu forWidget:(NSString*)widgetId
+{
+    NSMenuItem* item = [[NSMenuItem alloc]
+                        initWithTitle: @"문구 사용안함"
+                        action: @selector(toggleDisableMessage:)
+                        keyEquivalent: @""
+                        ];
+    
+    NSDictionary* settings = [widgets getSettings:widgetId];
+    [item setTarget:self];
+    [item setRepresentedObject:widgetId];
+    
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    [item setState:[[userDefaults objectForKey:@"messageDisabled"] isEqual: @"disabled"]];
+    [menu insertItem:item atIndex:0];
 }
 
 - (void)addSelectedScreensOptionToMenu:(NSMenu*)menu
@@ -452,6 +472,24 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
     [userDefaults setObject:@"right" forKey:@"messageDirection"];
     [userDefaults synchronize];
 
+    [self restartHangulClockDialog];
+}
+
+- (void)toggleDisableMessage:(id)sender
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    if([[userDefaults objectForKey:@"messageDisabled"] isEqual:@"disabled"])
+    {
+        [userDefaults setObject:@"enabled" forKey:@"messageDisabled"];
+    }
+    else
+    {
+        [userDefaults setObject:@"disabled" forKey:@"messageDisabled"];
+    }
+    
+    
+    [userDefaults synchronize];
+    
     [self restartHangulClockDialog];
 }
 
