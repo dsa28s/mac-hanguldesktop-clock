@@ -2,8 +2,8 @@
 ### Hangul Clock for Mac (Desktop Widget)
 ![Screenshot!](https://github.com/dsa28s/mac-hanguldesktop-clock/blob/master/screenshot/Screen%20Shot%202017-09-29%20at%205.23.39%20PM.png?raw=true)
 "누군가에게 위로받고싶어" 라고 생각이 들어 감성적으로 만들었어요.
-한글로 이루어진 시계와 맨 위에는 위로의 말이 출력된답니다. 
-바탕화면 위젯으로 사용할 수 있으며 마치 바탕화면처럼(?) 사용한답니다. 
+한글로 이루어진 시계와 위로의 말이 출력됩니다.
+바탕화면 위젯으로 사용할 수 있으며 마치 바탕화면처럼(?) 사용하면 됩니다. 
 즉, 바탕화면에 있는 아이콘과 배경화면에는 아무런 주지 않는다는거죠.
 
 ## 한글시계 사용하기
