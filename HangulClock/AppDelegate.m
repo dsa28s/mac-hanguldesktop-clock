@@ -25,6 +25,35 @@
 
 int const PORT = 2320;
 
+@implementation NSString (NSString_Extended)
+- (NSString *)urlencode {
+    NSMutableString *output = [NSMutableString string];
+    const unsigned char *source = (const unsigned char *)[self UTF8String];
+    int sourceLen = strlen((const char *)source);
+    for (int i = 0; i < sourceLen; ++i) {
+        const unsigned char thisChar = source[i];
+        if (thisChar == ' '){
+            [output appendString:@"+"];
+        } else if (thisChar == '.' || thisChar == '-' || thisChar == '_' || thisChar == '~' ||
+                   (thisChar >= 'a' && thisChar <= 'z') ||
+                   (thisChar >= 'A' && thisChar <= 'Z') ||
+                   (thisChar >= '0' && thisChar <= '9')) {
+            [output appendFormat:@"%c", thisChar];
+        } else if (thisChar == '\\' && source[i + 1] == 'n') {
+            if(i + 1 < sourceLen) {
+                [output appendString:@"%0A"];
+            }
+        } else {
+            [output appendFormat:@"%%%02X", thisChar];
+        }
+    }
+    
+    output = [output stringByReplacingOccurrencesOfString:@"%0An"
+                                      withString:@"%0A"];
+    return output;
+}
+@end
+
 @implementation AppDelegate {
     NSStatusItem* statusBarItem;
     NSTask* widgetServer;
@@ -38,7 +67,6 @@ int const PORT = 2320;
     NSMutableDictionary* windows;
     BOOL needsRefresh;
 }
-
 
 
 @synthesize statusBarMenu;
@@ -225,6 +253,7 @@ int const PORT = 2320;
 {
     int messageDirection = 0;
     int messageDisabled = 0;
+    NSString *customMessage = @"";
     
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -259,10 +288,19 @@ int const PORT = 2320;
         messageDisabled = 0;
     }
     
+    if([[userDefaults objectForKey:@"customMessage"] isEqual:@"default"])
+    {
+        customMessage = @"default";
+    }
+    else
+    {
+        customMessage = [[userDefaults objectForKey:@"customMessage"] urlencode];
+    }
+    
     // trailing slash required for load policy in HCWindow
     return [NSURL
         URLWithString:[NSString
-            stringWithFormat:@"%@://127.0.0.1:%d/?messagePosition=%d&messageDisabled=%d", protocol, PORT+portOffset, messageDirection, messageDisabled
+            stringWithFormat:@"%@://127.0.0.1:%d/?messagePosition=%d&messageDisabled=%d&customMessage=%@", protocol, PORT+portOffset, messageDirection, messageDisabled, customMessage
         ]
     ];
 }

@@ -142,6 +142,13 @@ update: (output, dom) ->
     $(dom).find("#content").addClass("content-right")
   else
 
+  if(getParameters().customMessage == "default" || getParameters().customMessage == "" || getParameters().customMessage == undefined)
+    $(dom).find("#message_top").html(output)
+    $(dom).find("#message_bottom").html(output)
+  else
+    $(dom).find("#message_top").html(decodeURIComponent(getParameters().customMessage).replace /[+]/g, " ")
+    $(dom).find("#message_bottom").html(decodeURIComponent(getParameters().customMessage).replace /[+]/g, " ")
+
   if(getParameters().messageDisabled == "1")
     $(dom).find("#message_top").css("display", "none")
     $(dom).find("#message_bottom").css("display", "none")

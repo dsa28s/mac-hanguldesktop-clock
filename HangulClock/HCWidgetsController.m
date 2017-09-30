@@ -160,7 +160,8 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
         [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:0];
         [self addHideOptionToMenu:widgetMenu forWidget:widgetId];
         [self addMessageDisableOptionsToMenu:widgetMenu forWidget:widgetId];
-        [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:1];
+        [self addCustomMessageDialogOptionsToMenu:widgetMenu forWidget:widgetId];
+        [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:2];
         [self addClockDirectionOptionToMenu:widgetMenu forWidget:widgetId];
         [self addClockDirectionDetailOptionsToMenu:widgetMenu forWidget:widgetId];
         [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:5];
@@ -301,6 +302,21 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
     [menu insertItem:item atIndex:0];
 }
 
+- (void)addCustomMessageDialogOptionsToMenu:(NSMenu*)menu forWidget:(NSString*)widgetId
+{
+    NSMenuItem* item = [[NSMenuItem alloc]
+                        initWithTitle: @"문구 사용자화"
+                        action: @selector(toggleCustomMessage:)
+                        keyEquivalent: @""
+                        ];
+    
+    NSDictionary* settings = [widgets getSettings:widgetId];
+    [item setTarget:self];
+    [item setRepresentedObject:widgetId];
+    
+    [menu insertItem:item atIndex:0];
+}
+
 - (void)addSelectedScreensOptionToMenu:(NSMenu*)menu
                              forWidget:(NSString*)widgetId
 {
@@ -333,26 +349,28 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
     int i = 0;
     for(NSNumber* screenId in screensController.sortedScreens) {
         name = screensController.screens[screenId];
-        title = [NSString stringWithFormat:@"%@ 에서만 보이기", name];
-        newItem = [[NSMenuItem alloc]
-            initWithTitle: title
-            action: @selector(toggleScreen:)
-            keyEquivalent: @""
-        ];
-        
-        [newItem setTarget:self];
-        [newItem
-            setRepresentedObject: @{
-                @"screenId": screenId,
-                @"widgetId": widgetId
+        if(![name  isEqual: @"Built-in Display"]) {
+            title = [NSString stringWithFormat:@"%@ 에서만 보이기", name];
+            newItem = [[NSMenuItem alloc]
+                       initWithTitle: title
+                       action: @selector(toggleScreen:)
+                       keyEquivalent: @""
+                       ];
+            
+            [newItem setTarget:self];
+            [newItem
+             setRepresentedObject: @{
+                                     @"screenId": screenId,
+                                     @"widgetId": widgetId
+                                     }
+             ];
+            
+            if ([widgetScreens containsObject:screenId]) {
+                [newItem setState:YES];
             }
-        ];
-        
-        if ([widgetScreens containsObject:screenId]) {
-            [newItem setState:YES];
+            [menu insertItem:newItem atIndex:i];
+            i++;
         }
-        [menu insertItem:newItem atIndex:i];
-        i++;
     }
 }
 
@@ -491,6 +509,30 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
     [userDefaults synchronize];
     
     [self restartHangulClockDialog];
+}
+
+- (void)toggleCustomMessage:(id)sender
+{
+    NSAlert *alert = [NSAlert new];
+    alert.messageText = @"문구 사용자화";
+    alert.informativeText = @"문구를 입력해주세요. 다음줄로 개행할 경우 \\n를 입력합니다.\n(자동 문구를 사용할 경우 default 라고 입력해주세요)";
+    [alert addButtonWithTitle:@"확인"];
+    [alert addButtonWithTitle:@"취소"];
+    
+    NSTextField *input = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 400, 24)];
+    [input setStringValue:@""];
+    
+    [alert setAccessoryView:input];
+    NSInteger button = [alert runModal];
+    if (button == NSAlertFirstButtonReturn) {
+        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:[input stringValue] forKey:@"customMessage"];
+        [userDefaults synchronize];
+        
+        [self restartHangulClockDialog];
+    } else if (button == NSAlertSecondButtonReturn) {
+        
+    }
 }
 
 - (void) someMethodDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
