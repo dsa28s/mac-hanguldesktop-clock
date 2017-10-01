@@ -288,7 +288,7 @@ int const PORT = 2320;
         messageDisabled = 0;
     }
     
-    if([[userDefaults objectForKey:@"customMessage"] isEqual:@"default"])
+    if([[userDefaults objectForKey:@"customMessage"] isEqual:@"default"] || [[userDefaults objectForKey:@"customMessage"] isEqual:@""] || [userDefaults objectForKey:@"customMessage"] == nil)
     {
         customMessage = @"default";
     }
