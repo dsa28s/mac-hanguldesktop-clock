@@ -254,6 +254,7 @@ int const PORT = 2320;
     int messageDirection = 0;
     int messageDisabled = 0;
     NSString *customMessage = @"";
+    int zoom = 3;
     
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -297,10 +298,23 @@ int const PORT = 2320;
         customMessage = [[userDefaults objectForKey:@"customMessage"] urlencode];
     }
     
+    if([[userDefaults objectForKey:@"clockZoom"] isEqual:@"percent50"])
+    {
+        zoom = 1;
+    }
+    else if([[userDefaults objectForKey:@"clockZoom"] isEqual:@"percent75"])
+    {
+        zoom = 2;
+    }
+    else
+    {
+        zoom = 3;
+    }
+    
     // trailing slash required for load policy in HCWindow
     return [NSURL
         URLWithString:[NSString
-            stringWithFormat:@"%@://127.0.0.1:%d/?messagePosition=%d&messageDisabled=%d&customMessage=%@", protocol, PORT+portOffset, messageDirection, messageDisabled, customMessage
+            stringWithFormat:@"%@://127.0.0.1:%d/?messagePosition=%d&messageDisabled=%d&customMessage=%@&zoom=%d", protocol, PORT+portOffset, messageDirection, messageDisabled, customMessage, zoom
         ]
     ];
 }

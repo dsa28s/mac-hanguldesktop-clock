@@ -95,7 +95,7 @@ render: (o) -> """
 update: (output, dom) ->
   hours = [["열", "두2"], ["한"], ["두"], ["세"], ["네"], ["다", "섯"], ["여", "섯2"], ["일", "곱"], ["여2", "덟"], ["아", "홉"], ["열"],
     ["열", "한2"], ["열", "두2"]]
-  minutes = [[""], ["일"], ["이"], ["삼"], ["사"], ["오"], ["육"], ["칠"], ["팔"], ["구"], ["십"], ["십", "일2"], ["십", "이2"],
+  minutes = [[""], ["일2"], ["이2"], ["삼2"], ["사2"], ["오3"], ["육"], ["칠"], ["팔"], ["구"], ["십"], ["십", "일2"], ["십", "이2"],
     ["십", "삼2"], ["십", "사2"], ["십", "오3"], ["십", "육"], ["십", "칠"], ["십", "팔"], ["십", "구"], ["이", "십"], ["이", "십", "일2"],
     ["이", "십", "이2"], ["이", "십", "삼2"], ["이", "십", "사2"], ["이", "십", "오3"], ["이", "십", "육"], ["이", "십", "칠"],
     ["이", "십", "팔"], ["이", "십", "구"], ["삼", "십"], ["삼", "십", "일2"], ["삼", "십", "이2"], ["삼", "십", "삼2"], ["삼", "십", "사2"],
@@ -152,6 +152,13 @@ update: (output, dom) ->
   if(getParameters().messageDisabled == "1")
     $(dom).find("#message_top").css("display", "none")
     $(dom).find("#message_bottom").css("display", "none")
+
+  if(getParameters().zoom == "1")
+    document.body.style.zoom = 0.5;
+  else if(getParameters().zoom == "2")
+    document.body.style.zoom = 0.75;
+  else
+    document.body.style.zoom = 1;
 
   if (hour is 0 or hour is 12) and minute is 0
     lightOn h_typo for h_typo in noons[Math.floor(hour / 12)]

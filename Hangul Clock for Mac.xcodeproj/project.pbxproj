@@ -38,7 +38,6 @@
 		BAF0CB9F1E4A3E6D00CFF3A4 /* HCPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAF0CB9D1E4A3E6D00CFF3A4 /* HCPreferencesController.xib */; };
 		BAFECCE61E4A456400FFA81C /* 블랙 한글시계.coffee in Resources */ = {isa = PBXBuildFile; fileRef = BAFECCE41E4A456400FFA81C /* 블랙 한글시계.coffee */; };
 		BAFECCE71E4A456400FFA81C /* 화이트 한글시계.coffee in Resources */ = {isa = PBXBuildFile; fileRef = BAFECCE51E4A456400FFA81C /* 화이트 한글시계.coffee */; };
-		BAFF0AFA1F70341000C75AB3 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = BAFF0AF91F70341000C75AB3 /* dsa_pub.pem */; };
 		DC43AD8017EC2D9500241CC2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC43AD7F17EC2D9500241CC2 /* Cocoa.framework */; };
 		DC43ADB717EC38D300241CC2 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC43ADB617EC38D300241CC2 /* WebKit.framework */; };
 		DCECA1C71893F23200C0CA32 /* localnode in Resources */ = {isa = PBXBuildFile; fileRef = DCECA1C51893F23200C0CA32 /* localnode */; };
@@ -115,7 +114,6 @@
 		BAF0CB9D1E4A3E6D00CFF3A4 /* HCPreferencesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HCPreferencesController.xib; path = HangulClock/HCPreferencesController.xib; sourceTree = SOURCE_ROOT; };
 		BAFECCE41E4A456400FFA81C /* 블랙 한글시계.coffee */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "블랙 한글시계.coffee"; sourceTree = "<group>"; };
 		BAFECCE51E4A456400FFA81C /* 화이트 한글시계.coffee */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "화이트 한글시계.coffee"; sourceTree = "<group>"; };
-		BAFF0AF91F70341000C75AB3 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = SOURCE_ROOT; };
 		C83FF255E9EC830236A15951 /* libPods-Hangul Clock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hangul Clock.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC43AD7C17EC2D9500241CC2 /* Today - Hangul Clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Today - Hangul Clock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC43AD7F17EC2D9500241CC2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -211,7 +209,6 @@
 		DC43AD8517EC2D9500241CC2 /* Hangul Clock */ = {
 			isa = PBXGroup;
 			children = (
-				BAFF0AF91F70341000C75AB3 /* dsa_pub.pem */,
 				BA14BB0B1E4A2C3000A9EB37 /* HangulClock.entitlements */,
 				BA14BB0C1E4A2D1600A9EB37 /* AppDelegate.h */,
 				BA14BB0D1E4A2D1600A9EB37 /* AppDelegate.m */,
@@ -364,7 +361,6 @@
 				BA14BB4A1E4A2DC400A9EB37 /* Hangul Clock for Mac-Info.plist in Resources */,
 				BA14BB441E4A2D9F00A9EB37 /* widget-status-visible@2x.png in Resources */,
 				BA14BB551E4A356600A9EB37 /* MainMenu.xib in Resources */,
-				BAFF0AFA1F70341000C75AB3 /* dsa_pub.pem in Resources */,
 				BAFECCE71E4A456400FFA81C /* 화이트 한글시계.coffee in Resources */,
 				BAFECCE61E4A456400FFA81C /* 블랙 한글시계.coffee in Resources */,
 				BA14BB471E4A2DB900A9EB37 /* status-icon.png in Resources */,

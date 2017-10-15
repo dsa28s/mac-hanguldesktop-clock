@@ -162,9 +162,13 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
         [self addMessageDisableOptionsToMenu:widgetMenu forWidget:widgetId];
         [self addCustomMessageDialogOptionsToMenu:widgetMenu forWidget:widgetId];
         [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:2];
-        [self addClockDirectionOptionToMenu:widgetMenu forWidget:widgetId];
         [self addClockDirectionDetailOptionsToMenu:widgetMenu forWidget:widgetId];
+        [self addClockDirectionOptionToMenu:widgetMenu forWidget:widgetId];
+        [self addClockZoomDetailOptionsToMenu:widgetMenu forWidget:widgetId];
+        [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:3];
+        [self addClockZoomOptionMenu:widgetMenu forWidget:widgetId];
         [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:5];
+        [widgetMenu insertItem:[NSMenuItem separatorItem] atIndex:11];
         
         [self
          addScreens: [screensController screens]
@@ -256,6 +260,43 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
     [item setState:false];
     [item setEnabled:NO];
     [menu insertItem:item atIndex:0];
+}
+
+- (void)addClockZoomOptionMenu:(NSMenu*)menu forWidget:(NSString*)widgetId
+{
+    NSMenuItem* item = [[NSMenuItem alloc] init];
+    NSDictionary* settings = [widgets getSettings:widgetId];
+    
+    [item setTitle:@"시계 크기"];
+    [item setState:false];
+    [item setEnabled:NO];
+    [menu insertItem:item atIndex:0];
+}
+
+- (void)addClockZoomDetailOptionsToMenu:(NSMenu*)menu forWidget:(NSString*)widgetId
+{
+    NSArray* directionStringArray = [NSArray arrayWithObjects:@"50%", @"75%", @"100%", nil];
+    NSArray* directionPrefKeyArray = [NSArray arrayWithObjects:@"percent50", @"percent75", @"percent100", nil];
+    SEL selectors[] = { @selector(toggleClockZoom_100:), @selector(toggleClockZoom_75:), @selector(toggleClockZoom_50_2:) };
+    directionStringArray = [[directionStringArray reverseObjectEnumerator]allObjects];
+    directionPrefKeyArray = [[directionPrefKeyArray reverseObjectEnumerator]allObjects];
+    
+    for(int i = 0; i < 3; i++) {
+        NSMenuItem* item = [[NSMenuItem alloc]
+                            initWithTitle: directionStringArray[i]
+                            action: selectors[i]
+                            keyEquivalent: @""
+                            ];
+        
+        //NSDictionary* settings = [widgets getSettings:widgetId];
+        [item setTarget:self];
+        [item setRepresentedObject:widgetId];
+        
+        NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+        
+        [item setState:[[userDefaults objectForKey:@"clockZoom"]  isEqual: directionPrefKeyArray[i]]];
+        [menu insertItem:item atIndex:0];
+    }
 }
 
 - (void)addClockDirectionDetailOptionsToMenu:(NSMenu*)menu forWidget:(NSString*)widgetId
@@ -490,6 +531,33 @@ static NSInteger const WIDGET_MENU_ITEM_TAG = 42;
     [userDefaults setObject:@"right" forKey:@"messageDirection"];
     [userDefaults synchronize];
 
+    [self restartHangulClockDialog];
+}
+
+- (void)toggleClockZoom_50_2:(id)sender
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@"percent50" forKey:@"clockZoom"];
+    [userDefaults synchronize];
+    
+    [self restartHangulClockDialog];
+}
+
+- (void)toggleClockZoom_75:(id)sender
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@"percent75" forKey:@"clockZoom"];
+    [userDefaults synchronize];
+    
+    [self restartHangulClockDialog];
+}
+
+- (void)toggleClockZoom_100:(id)sender
+{
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@"percent100" forKey:@"clockZoom"];
+    [userDefaults synchronize];
+    
     [self restartHangulClockDialog];
 }
 
