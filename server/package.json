@@ -36,7 +36,7 @@
     "escodegen": "^1.8.0",
     "esprima": "^2.7.2",
     "fsevents": "^1.0.6",
-    "jquery": "^2.2.0",
+    "jquery": "^3.5.0",
     "minimist": "0.0.8",
     "ms": "^0.7.1",
     "nib": "~1.0.2",
